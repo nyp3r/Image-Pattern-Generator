@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
-    int width = 500;
-    int height = 500;
+    const int LENGTH = 500;
+    const int MAX_COLOR_VALUE;
 
     char header[54] = { 
         0x42, 0x4D,                         // BM signature (magic number)
@@ -28,41 +29,17 @@ int main() {
         fputc(header[i], fp);
     }
 
+    const int colors[] = {LENGTH, LENGTH/2, 0};
+    const int R = 500, G = 250, B = 0;
+    for(int i = 0, pos = 0; i < (LENGTH * LENGTH); i++){
 
-    for(int i = 0; i < (width * height); i++){
-        if(i == 0 || i % 500 > 255){
-            fputc(255, fp);
+        pos = abs((i % LENGTH) - (i / LENGTH));
+
+        for(int j = 0; j < 3; j++){
+            fputc((double)(abs(colors[j] - pos) - LENGTH) / 1.9607843137, fp);
         }
-        else{
-            fputc(i % 500, fp);
-        }
-        fputc(i*2, fp);
-        fputc(i, fp);
+        // fputc(abs(B - pos) - LENGTH, fp);
+        // fputc(abs(G - pos) - LENGTH, fp);
+        // fputc(abs(R - pos) - LENGTH, fp);
     }
-
-    // for(int i = 0; i < (100*500); i++) {
-    //     fputc(255, fp);
-    //     fputc(0, fp);
-    //     fputc(0, fp);
-    // }
-    // for(int i = 0; i < (100*500); i++) {
-    //     fputc(120, fp);
-    //     fputc(120, fp);
-    //     fputc(0, fp);
-    // }
-    // for(int i = 0; i < (100*500); i++) {
-    //     fputc(0, fp);
-    //     fputc(255, fp);
-    //     fputc(0, fp);
-    // }
-    // for(int i = 0; i < (100*500); i++) {
-    //     fputc(0, fp);
-    //     fputc(120, fp);
-    //     fputc(120, fp);
-    // }
-    // for(int i = 0; i < (100*500); i++) {
-    //     fputc(0, fp);
-    //     fputc(0, fp);
-    //     fputc(255, fp);
-    // }
 }
