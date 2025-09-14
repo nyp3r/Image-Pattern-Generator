@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int Rainbow_Cornered(int length, int pixel, int color);
+int Rainbow_Circle(int length, int pixel, int color);
+
 int main() {
     const int LENGTH = 500;
     const int MAX_COLOR_VALUE;
@@ -29,17 +32,32 @@ int main() {
         fputc(header[i], fp);
     }
 
-    const int colors[] = {LENGTH, LENGTH/2, 0};
-    const int R = 500, G = 250, B = 0;
+    const int COLOR_COUNT = 3;
+    const int COLORS[] = {LENGTH, LENGTH/2, 0};
     for(int i = 0, pos = 0; i < (LENGTH * LENGTH); i++){
-
-        pos = abs((i % LENGTH) - (i / LENGTH));
+        // pos = abs((i % LENGTH) + (i / LENGTH))/2;
 
         for(int j = 0; j < 3; j++){
-            fputc((double)(abs(colors[j] - pos) - LENGTH) / 1.9607843137, fp);
+            // if(pos % 2 == 0 ) fputc(255, fp);
+            // else fputc((double)(LENGTH - abs(COLORS[j] - pos)) / 1.9607843137, fp);
+
+            fputc(Rainbow_Circle(LENGTH, i, COLORS[j]), fp);
         }
-        // fputc(abs(B - pos) - LENGTH, fp);
-        // fputc(abs(G - pos) - LENGTH, fp);
-        // fputc(abs(R - pos) - LENGTH, fp);
     }
+}
+
+int Rainbow_Cornered(int length, int pixel, int color){
+
+    int pos = abs((pixel % length) + (pixel / length))/2;
+
+    return (double)(length - abs(color - pos)) / 1.9607843137;
+
+}
+
+int Rainbow_Circle(int length, int pixel, int color){
+
+    int pos = abs((pixel % length) - (pixel / length));
+
+    return (double)(length - abs(color - pos)) / 1.9607843137;
+
 }
